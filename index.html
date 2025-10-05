@@ -3,10 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+<!-- Favicon (emoji via inline SVG) -->
 <link
   rel="icon"
   href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☄️</text></svg>"
 />
+
 <!-- ✅ SEO title & description -->
 <title>Next Meteor Shower – Live Countdown & Visibility | MeteorWatch</title>
 <meta name="description" content="When is the next meteor shower? See a live countdown in your local time, visibility by hemisphere, and quick facts for Geminids, Perseids, Orionids, Leonids and more." />
@@ -23,11 +26,11 @@
 <meta property="og:description" content="Live countdown to the next meteor shower, with hemisphere visibility and quick facts."/>
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="https://www.meteor-watch.com/"/>
-<meta property="og:image" content="https://YOUR_DOMAIN/assets/og.jpg"/>
+<meta property="og:image" content="https://www.meteor-watch.com/og.jpg"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Next Meteor Shower — Live Countdown"/>
 <meta name="twitter:description" content="See when the next meteor shower peaks and how to watch it."/>
-<meta name="twitter:image" content="https://YOUR_DOMAIN/assets/og.jpg"/>
+<meta name="twitter:image" content="https://www.meteor-watch.com/og.jpg"/>
 
 <!-- ✅ JSON-LD: Website (static) -->
 <script type="application/ld+json">
@@ -35,7 +38,7 @@
   "@context":"https://schema.org",
   "@type":"WebSite",
   "name":"MeteorWatch",
-  "url":"https://YOUR_DOMAIN/",
+  "url":"https://www.meteor-watch.com/",
   "description":"Live countdown to the next meteor shower with visibility info for your hemisphere.",
   "inLanguage":"en"
 }
@@ -76,8 +79,25 @@
     --bg:#060912; --card:#0b1020; --edge:#1a2340; --fg:#eaf2ff; --muted:#9fb0cc; --accent:#7cc6ff; --glow:rgba(124,198,255,.25);
     --north:#85f; --south:#5f9; --both:#ffd166;
   }
-  html,body{height:100%;margin:0;background:radial-gradient(1200px 600px at 70% 10%, #0a1330 0%, #070b18 60%, var(--bg) 100%);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
-  .wrap{max-width:980px;margin:0 auto;padding:20px}
+  html,body{
+    height:100%;margin:0;
+    background:radial-gradient(1200px 600px at 70% 10%, #0a1330 0%, #070b18 60%, var(--bg) 100%);
+    color:var(--fg);
+    font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif
+  }
+
+  /* Canvas full-viewport, correctly stacked */
+  #sky{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    z-index:0;           /* sits above body background, below content */
+    display:block;
+  }
+
+  .wrap{max-width:980px;margin:0 auto;padding:20px; position:relative; z-index:1;}
+
   header{display:flex;align-items:center;justify-content:space-between;margin-top:8px;margin-bottom:16px}
   .brand{font-weight:700;letter-spacing:.3px}
   .badge{color:var(--muted);font-size:13px}
@@ -100,7 +120,6 @@
   .list .item{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:12px;border:1px solid var(--edge);border-radius:12px;background:rgba(255,255,255,.04)}
   .list .item .meta{color:var(--muted);font-size:14px}
   footer{color:var(--muted);font-size:13px;margin:18px 0 30px}
-  #sky{position:fixed;inset:0;z-index:-1;display:block}
   /* info section */
   .info{margin-top:22px}
   .info p{color:var(--muted);margin:8px 0 0}
@@ -112,7 +131,7 @@
 
 <div class="wrap">
   <header>
-    <div class="brand" font-size='150'>☄️ MeteorWatch</div>
+    <div class="brand">☄️ MeteorWatch</div>
     <div class="badge" id="tz"></div>
   </header>
 
@@ -169,7 +188,6 @@
 <script>
 /* =========================
    1) Event data (UTC ISO + declination)
-   Update yearly with real peaks & dec values.
    ========================= */
 const SHOWERS = [
   /* === 2025 === */
@@ -213,8 +231,6 @@ const SHOWERS = [
   { name:"Ursids", peak:"2026-12-22T22:00:00Z", zhr:10, radiant:"Ursa Minor (RA 217°, Dec +76°)", dec:76, tips:"Northern hemisphere; pre-dawn best." }
 ];
 
-
-
 /* derive best hemisphere label from declination */
 function bestHemisphere(dec){
   if (dec > 20) return "North favoured";
@@ -249,9 +265,7 @@ function diffParts(ms){
 }
 
 /* simple max-elevation estimate for user's latitude */
-function maxElevation(lat, dec){
-  return 90 - Math.abs(lat - dec); // h_max ≈ 90° − |lat − dec|
-}
+function maxElevation(lat, dec){ return 90 - Math.abs(lat - dec); }
 function visibilityNote(lat, dec){
   const h = maxElevation(lat, dec);
   if (h <= 0) return {text:"Radiant does not rise at your latitude → not visible.", level:"bad"};
@@ -303,17 +317,17 @@ if(next){
     }, _err=>{}, {timeout:4000});
   }
 
-  // ✅ Inject JSON-LD Event for the next shower (dynamic, accurate)
+  // ✅ Inject JSON-LD Event (dynamic, accurate)
   const eventLd = {
     "@context": "https://schema.org",
     "@type": "Event",
     "name": `${next.name} Meteor Shower`,
-    "startDate": next.peak,           // peak timestamp
+    "startDate": next.peak,
     "eventStatus": "https://schema.org/EventScheduled",
     "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
     "description": `${next.name} meteor shower peak with an expected ZHR of ~${next.zhr}/hr. Live countdown and visibility guidance by hemisphere.`,
-   "url": "https://www.meteor-watch.com/",
-    "image": "https://YOUR_DOMAIN/assets/og.jpg",
+    "url": "https://www.meteor-watch.com/",
+    "image": "https://www.meteor-watch.com/og.jpg",
     "location": {
       "@type": "Place",
       "name": "Night Sky",
@@ -330,51 +344,56 @@ if(next){
 const upcomingEl = document.getElementById('upcoming');
 const now = new Date();
 const upcoming = SHOWERS.filter(s => new Date(s.peak) > now).slice(0,3);
-if (upcoming.length === 0) {
-  upcomingEl.innerHTML = `<div class="item"><div>No upcoming events in list.</div></div>`;
-} else {
-  upcomingEl.innerHTML = upcoming.map(s => {
-    const hemi = bestHemisphere(s.dec);
-    const emoji = hemi.startsWith('North') ? '🌏' : hemi.startsWith('South') ? '🌎' : '🌍';
-    return `
-      <div class="item">
-        <div>
-          <div><b>${s.name} Meteor Shower</b></div>
-          <div class="meta">${fmtLocal(s.peak)}</div>
+upcomingEl.innerHTML = (upcoming.length === 0)
+  ? `<div class="item"><div>No upcoming events in list.</div></div>`
+  : upcoming.map(s => {
+      const hemi = bestHemisphere(s.dec);
+      const emoji = hemi.startsWith('North') ? '🌏' : hemi.startsWith('South') ? '🌎' : '🌍';
+      return `
+        <div class="item">
+          <div>
+            <div><b>${s.name} Meteor Shower</b></div>
+            <div class="meta">${fmtLocal(s.peak)}</div>
+          </div>
+          <div class="meta">${emoji} ${hemi} • ~${s.zhr}/hr</div>
         </div>
-        <div class="meta">${emoji} ${hemi} • ~${s.zhr}/hr</div>
-      </div>
-    `;
-  }).join('');
-}
+      `;
+    }).join('');
 
 /* =========================
-   2) Canvas Starfield + Meteors
+   2) Canvas Starfield + Meteors (full-viewport + crisp)
    ========================= */
 const canvas = document.getElementById('sky');
 const ctx = canvas.getContext('2d', { alpha: true });
-let W,H, DPR = Math.min(2, window.devicePixelRatio||1);
-function resize(){
-  W = canvas.width = Math.floor(innerWidth * DPR);
-  H = canvas.height = Math.floor(innerHeight * DPR);
-  canvas.style.width = innerWidth+'px';
-  canvas.style.height = innerHeight+'px';
-}
-resize(); addEventListener('resize', resize);
 
+let W, H, DPR;
 const stars = [];
 const STAR_N = 200;
-for (let i=0;i<STAR_N;i++){
-  stars.push({
-    x: Math.random()*W,
-    y: Math.random()*H,
-    r: (Math.random()*1.2+0.2)*DPR,
-    a: Math.random()*0.6 + 0.3,
-    tw: Math.random()*0.02 + 0.005
-  });
+let meteors = [];
+
+function resize(){
+  // Recompute DPR on resize/zoom and size the backing store
+  DPR = Math.min(2, window.devicePixelRatio || 1);
+  W = canvas.width  = Math.floor(window.innerWidth  * DPR);
+  H = canvas.height = Math.floor(window.innerHeight * DPR);
+  // CSS size is controlled by CSS (100vw/100vh)
+  initStars();               // regenerate stars for new size/DPR
+}
+addEventListener('resize', resize);
+
+function initStars(){
+  stars.length = 0;
+  for (let i=0;i<STAR_N;i++){
+    stars.push({
+      x: Math.random()*W,
+      y: Math.random()*H,
+      r: (Math.random()*1.2+0.2)*DPR,
+      a: Math.random()*0.6 + 0.3,
+      tw: Math.random()*0.02 + 0.005
+    });
+  }
 }
 
-let meteors = [];
 function spawnMeteor(){
   const startX = -Math.random()*W*0.2;
   const startY = Math.random()*H*0.3;
@@ -383,10 +402,11 @@ function spawnMeteor(){
     x: startX, y: startY, vx: 6*DPR, vy: 3*DPR, life: 0, len, maxLife: 1600 + Math.random()*1200
   });
 }
-setInterval(()=>{ if(Math.random()<0.25) spawnMeteor(); }, 2500);
 
 function draw(){
   ctx.clearRect(0,0,W,H);
+
+  // stars
   for (const s of stars){
     s.a += s.tw*(Math.random()<0.5?-1:1);
     if (s.a<0.2) s.a=0.2; if (s.a>0.9) s.a=0.9;
@@ -396,6 +416,8 @@ function draw(){
     ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
     ctx.fill();
   }
+
+  // meteors
   ctx.globalAlpha = 1;
   for (const m of meteors){
     m.x += m.vx; m.y += m.vy; m.life += 16;
@@ -410,14 +432,15 @@ function draw(){
     ctx.stroke();
   }
   meteors = meteors.filter(m => m.life < m.maxLife && m.x < W+200 && m.y < H+200);
+
   requestAnimationFrame(draw);
 }
+
+// boot
+resize();
+initStars();
+setInterval(()=>{ if(Math.random()<0.25) spawnMeteor(); }, 2500);
 draw();
 </script>
 </body>
 </html>
-
-
-
-
-
