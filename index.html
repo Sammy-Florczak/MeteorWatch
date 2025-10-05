@@ -155,24 +155,12 @@
     </p>
   </section>
 
-  <footer>
-    Data is approximate & displayed in your local time. Visibility depends on latitude, sky darkness, and weather. Very minor meteor showers have been omitted. ✨
-    <br>
-    👀 Visits: <span id="visits">—</span>
-  </p>
+<footer>
+  Data is approximate & displayed in your local time. Visibility depends on latitude, sky darkness, and weather.
+  Very minor meteor showers have been omitted. ✨
+  <br>
+  <a href="https://hits.sh/meteor-watch.com/"><img alt="Hits" src="https://hits.sh/meteor-watch.com.svg?label=Visits%3A&extraCount=100&color=0a1330&labelColor=0a1330"/></a>
 </footer>
-
-<script>
-fetch('https://api.countapi.xyz/hit/meteor-watch.com/visits')
-  .then(res => res.json())
-  .then(res => {
-    const el = document.getElementById('visits');
-    el.textContent = res.value.toLocaleString();
-  })
-  .catch(() => {
-    document.getElementById('visits').textContent = 'N/A';
-  });
-</script>
 </div>
 
 <script>
@@ -425,6 +413,7 @@ draw();
 </script>
 </body>
 </html>
+
 
 
 
