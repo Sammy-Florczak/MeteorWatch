@@ -166,19 +166,47 @@
    Update yearly with real peaks & dec values.
    ========================= */
 const SHOWERS = [
-  { name:"Orionids",   peak:"2025-10-22T03:00:00Z", zhr:20,  radiant:"Orion (RA 95°, Dec +16°)",  dec: 16, tips:"After midnight; best pre-dawn." },
-  { name:"Leonids",    peak:"2025-11-18T04:00:00Z", zhr:15,  radiant:"Leo (RA 152°, Dec +22°)",   dec: 22, tips:"Late night; fast bright meteors." },
-  { name:"Geminids",   peak:"2025-12-14T07:00:00Z", zhr:120, radiant:"Gemini (RA 112°, Dec +33°)", dec: 33, tips:"All night; very reliable." },
-  { name:"Quadrantids",peak:"2026-01-03T21:00:00Z", zhr:110, radiant:"Bootes (RA 230°, Dec +49°)", dec: 49, tips:"Short, sharp peak; pre-dawn." },
-  { name:"Draconids",  peak:"2025-10-08T19:00:00Z", zhr:10,  radiant:"Draco (RA ~265°, Dec +63°)", dec: 63, tips:"Evening hours; radiant in Draco." },
-  { name:"Perseids",   peak:"2025-08-13T02:30:00Z", zhr:100, radiant:"Perseus (RA ~48°, Dec +58°)", dec: 58, tips:"Pre-dawn; one of the best showers." },
-  { name:"Lyrids",     peak:"2025-04-22T13:30:00Z", zhr:18,  radiant:"Lyra (RA ~271°, Dec +34°)", dec: 34, tips:"Late night; decent rates." },
-  { name:"Taurids-N",   peak:"2025-11-08T03:00:00Z", zhr:5,   radiant:"Taurus (Dec ~ +23°)",        dec: 23, tips:"Slow meteors; presence of fireballs." },
-  { name:"Taurids-S",   peak:"2025-11-03T02:00:00Z", zhr:5,   radiant:"Taurus (Dec ~ +6°)",         dec: 6,  tips:"Active for long period; fireball chance." },
-  { name:"Ursids",     peak:"2025-12-21T22:00:00Z", zhr:10,  radiant:"Ursa Minor (RA ~217°, Dec +75°)", dec: 75, tips:"Late December; northern hemisphere favorite." },
-  { name:"Eta Aquariids", peak:"2026-05-06T08:00:00Z", zhr:50, radiant:"Aquarius (RA 338°, Dec −1°)", dec:-1, tips:"Best just before dawn; southern favoured." },
-  { name:"Delta Aquariids", peak:"2026-07-30T02:00:00Z", zhr:25, radiant:"Aquarius (Dec −16°)", dec:-16, tips:"After midnight; dark skies help a lot." }
+  /* === 2025 === */
+  { name:"Quadrantids", peak:"2025-01-03T15:00:00Z", zhr:80, radiant:"Boötes (RA 230°, Dec +49°)", dec:49, tips:"Sharp 6-hour peak; best pre-dawn; bright meteors." },
+  { name:"α Centaurids", peak:"2025-02-08T00:00:00Z", zhr:6, radiant:"Centaurus (RA 211°, Dec −58°)", dec:-58, tips:"Southern-hemisphere; faint, late night." },
+  { name:"Lyrids", peak:"2025-04-22T13:30:00Z", zhr:18, radiant:"Lyra (RA 271°, Dec +34°)", dec:34, tips:"Visible after midnight; moderate rates." },
+  { name:"π Puppids", peak:"2025-04-23T19:00:00Z", zhr:20, radiant:"Puppis (RA 110°, Dec −45°)", dec:-45, tips:"Southern skies; possible brief enhancement." },
+  { name:"η Aquariids", peak:"2025-05-06T03:00:00Z", zhr:50, radiant:"Aquarius (RA 338°, Dec −1°)", dec:-1, tips:"Best before dawn; dark Moon; southern favoured." },
+  { name:"June Boötids", peak:"2025-06-27T11:00:00Z", zhr:10, radiant:"Boötes (RA 221°, Dec +48°)", dec:48, tips:"Unpredictable; sometimes strong." },
+  { name:"Southern δ Aquariids", peak:"2025-07-31T00:00:00Z", zhr:25, radiant:"Aquarius (RA 339°, Dec −16°)", dec:-16, tips:"Steady after midnight; overlaps α Capricornids." },
+  { name:"α Capricornids", peak:"2025-07-31T00:00:00Z", zhr:5, radiant:"Capricornus (RA 307°, Dec −10°)", dec:-10, tips:"Slow bright fireballs; all night." },
+  { name:"Perseids", peak:"2025-08-12T02:00:00Z", zhr:100, radiant:"Perseus (RA 48°, Dec +58°)", dec:58, tips:"Bright, fast meteors; Full Moon interference." },
+  { name:"κ Cygnids", peak:"2025-08-16T00:00:00Z", zhr:3, radiant:"Cygnus (RA 288°, Dec +55°)", dec:55, tips:"Slow sporadic fireballs; northern favoured." },
+  { name:"Aurigids", peak:"2025-09-01T03:00:00Z", zhr:10, radiant:"Auriga (RA 91°, Dec +39°)", dec:39, tips:"Short peak before dawn; dark skies." },
+  { name:"ε Perseids", peak:"2025-09-09T18:00:00Z", zhr:8, radiant:"Perseus (RA 48°, Dec +40°)", dec:40, tips:"Bright fast meteors; Full Moon reduces rates." },
+  { name:"Draconids", peak:"2025-10-08T16:00:00Z", zhr:50, radiant:"Draco (RA 262°, Dec +55°)", dec:55, tips:"Evening hours; possible short outburst." },
+  { name:"Orionids", peak:"2025-10-21T00:00:00Z", zhr:20, radiant:"Orion (RA 95°, Dec +16°)", dec:16, tips:"Fast meteors; ideal New Moon conditions." },
+  { name:"Southern Taurids", peak:"2025-11-05T00:00:00Z", zhr:10, radiant:"Taurus (RA 52°, Dec +15°)", dec:15, tips:"Slow bright fireballs; long activity period." },
+  { name:"Northern Taurids", peak:"2025-11-12T00:00:00Z", zhr:10, radiant:"Taurus (RA 58°, Dec +22°)", dec:22, tips:"Enhanced swarm year; possible fireballs." },
+  { name:"Leonids", peak:"2025-11-17T18:00:00Z", zhr:15, radiant:"Leo (RA 152°, Dec +22°)", dec:22, tips:"Fast meteors; potential minor trail spikes." },
+  { name:"λ Sculptorids", peak:"2025-12-12T15:00:00Z", zhr:10, radiant:"Sculptor (RA 12°, Dec −32°)", dec:-32, tips:"Very slow meteors; experimental new stream." },
+  { name:"Geminids", peak:"2025-12-14T08:00:00Z", zhr:150, radiant:"Gemini (RA 112°, Dec +33°)", dec:33, tips:"Bright reliable display; minor moonlight." },
+  { name:"Ursids", peak:"2025-12-22T10:00:00Z", zhr:10, radiant:"Ursa Minor (RA 217°, Dec +76°)", dec:76, tips:"Short peak; northern latitudes." },
+
+  /* === 2026 === */
+  { name:"Quadrantids", peak:"2026-01-03T21:00:00Z", zhr:80, radiant:"Boötes (RA 230°, Dec +49°)", dec:49, tips:"Short, sharp maximum; excellent for both hemispheres." },
+  { name:"α Centaurids", peak:"2026-02-08T00:00:00Z", zhr:6, radiant:"Centaurus (RA 211°, Dec −58°)", dec:-58, tips:"Southern latitudes; few bright meteors." },
+  { name:"Lyrids", peak:"2026-04-22T19:40:00Z", zhr:18, radiant:"Lyra (RA 271°, Dec +34°)", dec:34, tips:"Evening rise; moderate rates." },
+  { name:"η Aquariids", peak:"2026-05-06T08:00:00Z", zhr:50, radiant:"Aquarius (RA 338°, Dec −1°)", dec:-1, tips:"Southern favoured; pre-dawn best." },
+  { name:"June Boötids", peak:"2026-06-22T01:00:00Z", zhr:10, radiant:"Boötes (RA 221°, Dec +48°)", dec:48, tips:"Unpredictable; rarely active." },
+  { name:"Southern δ Aquariids", peak:"2026-07-30T02:00:00Z", zhr:25, radiant:"Aquarius (RA 339°, Dec −16°)", dec:-16, tips:"After midnight; dark skies help." },
+  { name:"α Capricornids", peak:"2026-07-31T00:00:00Z", zhr:5, radiant:"Capricornus (RA 307°, Dec −10°)", dec:-10, tips:"Slow fireballs; good from both hemispheres." },
+  { name:"Perseids", peak:"2026-08-13T02:00:00Z", zhr:100, radiant:"Perseus (RA 48°, Dec +58°)", dec:58, tips:"Excellent year; dark Moon; reliable show." },
+  { name:"κ Cygnids", peak:"2026-08-17T00:00:00Z", zhr:3, radiant:"Cygnus (RA 288°, Dec +55°)", dec:55, tips:"Slow, bright; sparse activity." },
+  { name:"ε Perseids", peak:"2026-09-09T18:00:00Z", zhr:8, radiant:"Perseus (RA 48°, Dec +40°)", dec:40, tips:"Bright fast meteors; short maximum." },
+  { name:"Orionids", peak:"2026-10-21T00:00:00Z", zhr:20, radiant:"Orion (RA 95°, Dec +16°)", dec:16, tips:"Fast meteors; best before dawn." },
+  { name:"Southern Taurids", peak:"2026-11-05T00:00:00Z", zhr:10, radiant:"Taurus (RA 52°, Dec +15°)", dec:15, tips:"Slow bright meteors; long-lived." },
+  { name:"Northern Taurids", peak:"2026-11-12T00:00:00Z", zhr:5, radiant:"Taurus (RA 58°, Dec +22°)", dec:22, tips:"Long duration; occasional fireballs." },
+  { name:"Leonids", peak:"2026-11-17T23:45:00Z", zhr:15, radiant:"Leo (RA 152°, Dec +22°)", dec:22, tips:"Fast meteors; steady moderate rates." },
+  { name:"Geminids", peak:"2026-12-14T14:00:00Z", zhr:150, radiant:"Gemini (RA 112°, Dec +33°)", dec:33, tips:"Strong, bright shower; excellent conditions." },
+  { name:"Ursids", peak:"2026-12-22T22:00:00Z", zhr:10, radiant:"Ursa Minor (RA 217°, Dec +76°)", dec:76, tips:"Northern hemisphere; pre-dawn best." }
 ];
+
 
 
 /* derive best hemisphere label from declination */
@@ -382,3 +410,4 @@ draw();
 </script>
 </body>
 </html>
+
